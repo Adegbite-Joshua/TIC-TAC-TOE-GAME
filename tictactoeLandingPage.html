@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | </title>
+    <link rel="stylesheet" href="../bootstrap-5.2.2-dist/css/bootstrap.css">
+</head>
+<body>
+    <div class="w-50 mx-auto d-block mt-5">
+        <h1 align="center">TIC-TAC-TOE</h1>
+        <input type="text" placeholder="First Player" id="firstPlayer" class="form-control my-2">
+        <input type="text" placeholder="Second Player" id="secondPlayer" class="form-control my-2">
+        <p class="text-center text-danger" id="errorDisplay"></p>
+        <button class="w-50 d-block mx-auto btn btn-success" onclick="addPlayers()">Start Game</button>
+    </div>
+    <script>
+        let players = []
+        const addPlayers =()=>{
+            if (firstPlayer.value!="") {
+                if (secondPlayer.value!="") {
+                    players.push(firstPlayer.value , secondPlayer.value)
+                    localStorage.setItem("tictactoePlayers", JSON.stringify(players))
+                    window.location.href = "tictactoeDashboard.html"
+                } else{
+                    errorDisplay.innerText = "Second Player Name Required"
+                    setTimeout(()=>rrorDisplay.innerText = "", 3000)}
+            } else{
+                errorDisplay.innerText = "First Player Name Required"
+                setTimeout(()=>errorDisplay.innerText = "", 3000)}
+        }
+    </script>
+</body>
+</html>

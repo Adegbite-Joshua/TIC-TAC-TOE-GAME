@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Game</title>
+    <link rel="stylesheet" href="../bootstrap-5.2.2-dist/css/bootstrap.css">
+</head>
+<style>
+    .checkBox{
+        height: 90px;
+        width: 90px;
+        font-size: 50px;
+    }
+    .checkBox:hover{
+        transform: scale(1.3);
+    }
+    .danger{
+        background: linear-gradient(orange, orange, green, green);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .warning{
+        background: linear-gradient(red, red, green, green);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .success{
+        background: linear-gradient(orange, orange, red, red);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .danger:hover{
+        box-shadow: 0 0 1rem red;
+        background: red !important;
+        opacity: 80%;
+        -webkit-text-fill-color: orange;
+    }
+    .warning:hover{
+        box-shadow: 0 0 1rem orange;
+        background: orange !important;
+        opacity: 80%;
+        -webkit-text-fill-color: red;
+    }
+    .success:hover{
+        box-shadow: 0 0 1rem green;
+        background: green !important;
+        opacity: 80%;
+        -webkit-text-fill-color: orange;
+    }
+    @media (max-width: 800px) {
+        .smallDeviceHeight{
+            height: 40% !important;
+        }
+        .smallDeviceHeight2{
+            height: 60% !important;
+        }
+    }
+</style>
+<body class="row row-cols-1 row-cols-md-2 overflow-hidden">
+    <div class="smallDeviceHeight">
+        <div style="height: 300px; width: 300px; display: flex; flex-wrap: wrap;" class="mx-auto">
+            <div id="boxa1" class="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+            <div id="boxa2" class="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+            <div id="boxa3" class="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+            <div id="boxb1" class="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+            <div id="boxb2" class="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+            <div id="boxb3" class="border border-2 checkBox m-auto rounded-2 border-success success d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+            <div id="boxc1" class="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+            <div id="boxc2" class="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+            <div id="boxc3" class="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
+        </div>
+        <div class="mx-auto w-50 d-block btn-group">
+            <button class="btn btn-success ms-auto my-2" onclick="playMusic()">Play Sound</button>
+            <button class="btn btn-success me-auto my-2" onclick="pauseMusic()">Play Sound</button>
+        </div>
+        <button class="btn btn-success d-block w-50 mx-auto my-2" onclick="continueGame()">Continue</button>
+        <button class="btn btn-success d-block w-50 mx-auto my-2" onclick="restartGame()">Restart</button>
+        <button class="btn btn-success d-block w-50 mx-auto my-2" onclick="resetGame()">Reset</button>
+    </div>
+    <div class="smallDeviceHeight2">
+        <marquee behavior="" direction=""><h1 class="mt-5 text-success">TIC TAC TOE GAME</h1></marquee>
+        <table style="width: 90%;" class="text-center mt-5 mx-auto">
+            <thead>
+                <tr>
+                    <td class="border border-2 border-success text-success">S/N</td>
+                    <td class="border border-2 border-success text-success">PLAYER'S NAME</td>
+                    <td class="border border-2 border-success text-success">SIGN</td>
+                    <td class="border border-2 border-success text-success">SCORE</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-2 border-success text-success" id="fPSN"></td>
+                    <td class="border border-2 border-success text-success" id="firstPlayer"></td>
+                    <td class="border border-2 border-success text-success" id="firstSign"></td>
+                    <td class="border border-2 border-success text-success" id="firstScore"></td>
+                </tr>
+                <tr>
+                    <td class="border border-2 border-success text-success" id="sPSN"></td>
+                    <td class="border border-2 border-success text-success" id="secondPlayer"></td>
+                    <td class="border border-2 border-success text-success" id="secondSign"></td>
+                    <td class="border border-2 border-success text-success" id="secondScore"></td>
+                </tr>
+            </tbody>
+        </table>
+        <marquee behavior="scroll" direction="left"><h4 id="winner"></h4></marquee>
+    </div>
+
+    <script>
+        if (!localStorage.tictactoePlayers) { 
+            alert("No user found")
+            window.location.href = "tictactoeLandingPage.html"
+        }
+        let players = JSON.parse(localStorage.getItem("tictactoePlayers"))
+        fPSN.innerText = 1
+        sPSN.innerText = 2
+        firstSign.innerText = "X"
+        secondSign.innerText = "O"
+        firstScore.innerText = 0
+        secondScore.innerText = 0 
+        firstPlayer.innerText = players[0]
+        secondPlayer.innerText = players[1]
+        let nextPlayer = "X"
+        let sound = new Audio("a.wav")
+        const playGame =(e)=>{
+                if (nextPlayer=="X" && e.target.innerText=="") {
+                e.target.innerText = "X"
+                nextPlayer = "O"
+                } else if (nextPlayer=="O" && e.target.innerText=="") {
+                    e.target.innerText = "O"
+                    nextPlayer = "X"
+                }
+                if (boxa1.innerText=="X" && boxb2.innerText=="X" && boxc3.innerText=="X" || boxa2.innerText=="X" && boxb2.innerText=="X" && boxc2.innerText=="X" || boxa3.innerText=="X" && boxb2.innerText=="X" && boxc1.innerText=="X" || boxb1.innerText=="X" && boxb2.innerText=="X" && boxb3.innerText=="X" || boxa1.innerText=="X" && boxa2.innerText=="X" && boxa3.innerText=="X" || boxc1.innerText=="X" && boxc2.innerText=="X" && boxc3.innerText=="X" || boxa1.innerText=="X" && boxb1.innerText=="X" && boxc1.innerText=="X" || boxa3.innerText=="X" && boxb3.innerText=="X" && boxc3.innerText=="X") {
+                    firstScore.innerText = Number(firstScore.innerText)+5
+                    nextPlayer = ""
+                    winner.innerText = `${players[0]} wins`
+                } else if (boxa1.innerText=="O" && boxb2.innerText=="O" && boxc3.innerText=="O" || boxa2.innerText=="O" && boxb2.innerText=="O" && boxc2.innerText=="O" || boxa3.innerText=="O" && boxb2.innerText=="O" && boxc1.innerText=="O" || boxb1.innerText=="O" && boxb2.innerText=="O" && boxb3.innerText=="O" || boxa1.innerText=="O" && boxa2.innerText=="O" && boxa3.innerText=="O" || boxc1.innerText=="O" && boxc2.innerText=="O" && boxc3.innerText=="O" || boxa1.innerText=="O" && boxb1.innerText=="O" && boxc1.innerText=="O" || boxa3.innerText=="O" && boxb3.innerText=="O" && boxc3.innerText=="O") {
+                    secondScore.innerText = Number(secondScore.innerText)+5
+                    nextPlayer = ""
+                    winner.innerText = `${players[1]} wins`
+                } else if (boxa1.innerText!=""&&boxa2.innerText!=""&&boxa3.innerText!=""&&boxb1.innerText!=""&&boxa2.innerText!=""&&boxb3.innerText!=""&&boxc1.innerText!=""&&boxc2.innerText!=""&&boxc3.innerText!="") {
+                    winner.innerText = `Draw 😰`
+                }
+        }
+        const continueGame =()=>{
+            boxa1.innerText = ""
+            boxa2.innerText = ""
+            boxa3.innerText = ""
+            boxb1.innerText = ""
+            boxb2.innerText = ""
+            boxb3.innerText = ""
+            boxc1.innerText = ""
+            boxc2.innerText = ""
+            boxc3.innerText = ""
+            winner.innerText = ""
+            nextPlayer = "X"
+        }
+        const restartGame =()=>{
+            firstScore.innerText = 0
+            secondScore.innerText = 0
+            boxa1.innerText = ""
+            boxa2.innerText = ""
+            boxa3.innerText = ""
+            boxb1.innerText = ""
+            boxb2.innerText = ""
+            boxb3.innerText = ""
+            boxc1.innerText = ""
+            boxc2.innerText = ""
+            boxc3.innerText = ""
+            winner.innerText = ""
+            nextPlayer = "X"
+        }
+        const resetGame =()=>{
+            firstScore.innerText = 0
+            secondScore.innerText = 0
+            boxa1.innerText = ""
+            boxa2.innerText = ""
+            boxa3.innerText = ""
+            boxb1.innerText = ""
+            boxb2.innerText = ""
+            boxb3.innerText = ""
+            boxc1.innerText = ""
+            boxc2.innerText = ""
+            boxc3.innerText = ""
+            winner.innerText = ""
+            nextPlayer = "X"
+            localStorage.removeItem("tictactoePlayers")
+            window.location.href = "tictactoeLandingPage.html"
+        }
+        const playMusic =()=>{
+            sound.play()
+        }
+        const pauseMusic =()=>{
+            sound.pause()
+        }
+    </script>
+</body>
+</html>
