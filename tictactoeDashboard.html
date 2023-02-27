@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Game</title>
+    <link rel="shortcut icon" href="gift.png" type="image/x-icon">
     <link rel="stylesheet" href="../bootstrap-5.2.2-dist/css/bootstrap.css">
 </head>
 <style>
@@ -71,9 +72,10 @@
             <div id="boxc2" class="border border-2 checkBox m-auto rounded-2 border-warning warning d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
             <div id="boxc3" class="border border-2 checkBox m-auto rounded-2 border-danger danger d-flex justify-content-center align-items-center fw-bold" onclick="playGame(event)"></div>
         </div>
+        <p id="nextPlayerToPlay" class="text-success text-center"></p>
         <div class="mx-auto w-50 d-block btn-group">
             <button class="btn btn-success ms-auto my-2" onclick="playMusic()">Play Sound</button>
-            <button class="btn btn-success me-auto my-2" onclick="pauseMusic()">Play Sound</button>
+            <button class="btn btn-success me-auto my-2" onclick="pauseMusic()">Pause Sound</button>
         </div>
         <button class="btn btn-success d-block w-50 mx-auto my-2" onclick="continueGame()">Continue</button>
         <button class="btn btn-success d-block w-50 mx-auto my-2" onclick="restartGame()">Restart</button>
@@ -123,14 +125,17 @@
         firstPlayer.innerText = players[0]
         secondPlayer.innerText = players[1]
         let nextPlayer = "X"
-        let sound = new Audio("a.wav")
+        let sound = new Audio("sound.mp3")
+        nextPlayerToPlay.innerText = `It is ${players[0]}'s turn to play, playing as "X"`
         const playGame =(e)=>{
                 if (nextPlayer=="X" && e.target.innerText=="") {
                 e.target.innerText = "X"
                 nextPlayer = "O"
+                nextPlayerToPlay.innerText = `It is ${players[1]}'s turn to play, playing as "O"`
                 } else if (nextPlayer=="O" && e.target.innerText=="") {
                     e.target.innerText = "O"
                     nextPlayer = "X"
+                    nextPlayerToPlay.innerText = `It is ${players[0]}'s turn to play, playing as "X"`
                 }
                 if (boxa1.innerText=="X" && boxb2.innerText=="X" && boxc3.innerText=="X" || boxa2.innerText=="X" && boxb2.innerText=="X" && boxc2.innerText=="X" || boxa3.innerText=="X" && boxb2.innerText=="X" && boxc1.innerText=="X" || boxb1.innerText=="X" && boxb2.innerText=="X" && boxb3.innerText=="X" || boxa1.innerText=="X" && boxa2.innerText=="X" && boxa3.innerText=="X" || boxc1.innerText=="X" && boxc2.innerText=="X" && boxc3.innerText=="X" || boxa1.innerText=="X" && boxb1.innerText=="X" && boxc1.innerText=="X" || boxa3.innerText=="X" && boxb3.innerText=="X" && boxc3.innerText=="X") {
                     firstScore.innerText = Number(firstScore.innerText)+5
